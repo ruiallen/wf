@@ -1,0 +1,14 @@
+1.d0  3  1  1  1  0  0  0  1  
+0  0 0 0 0
+300   0.05
+
+     
+************
+Input parameters for one-electron wave function calculation, assuming one nucleus is of charge 1
+Input: QU, N, L, M, IETOT, IRISK, IPRINT, IPUNCH, RJ
+       RSTART, IAC
+	NPT, RINCR
+
+Rstart must be 0
+NR<1000 Otherwise grave.f will not work properly
+NR<=100 Otherwise medoc.f doesn't work
