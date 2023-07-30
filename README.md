@@ -1,3 +1,5 @@
+Not sure why this documentation is not formatted properly. Try to read the source code version if you can. I also have an overleaf version.
+
 # One-electron Diatomic Molecule Structure Calculation wf.f
 The program wf.f is the combined version of 1, power.f [1] and 2, grave.f [2]. The main purpose of the program is to calculate the potential energy and the wavefunction expansion terms, which are later used to determine the couplings. 
 
