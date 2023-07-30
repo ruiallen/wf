@@ -13,6 +13,7 @@ C
       CHARACTER*2 CENTER(2),EOUT(2),YN*1
       INTEGER FCHAIN,GCHAIN
       CHARACTER*10 DUM(8)
+
       LOGICAL*1 PT1,PT2,PT3
       DIMENSION IACDFT(4),IACMAX(4),IACMIN(4),IAC(4),AC(4)
       EQUIVALENCE (AC(1),PAC),(AC(2),CAC),(AC(3),ACCIN),(AC(4),ACCOUT)
@@ -24,9 +25,8 @@ C
       OPEN(IOUT,FILE='WF.OUT',STATUS='unknown')
       OPEN(77,FILE='WF.DAT')
       OPEN(IOEDM,FILE='IOEDM')
-C
 
-C
+
 1     continue
 C     WRITE(*,600)
 C     WRITE(*,699)
@@ -48,7 +48,7 @@ C
 
 C     READ(IIN,501)ZA,ZB,N,L,M,IETOT,IRISK,IPRINT,IWFN,RJ
       READ(77, *)QU,N,L,M,IETOT,IRISK,IPRINT,IWFN,RJ
-
+      CALL
 501   FORMAT(D12.6,7I2,F10.0)
       ZA = 1.D0
       ZB = QU
@@ -388,32 +388,6 @@ C     WRITE(*,614) RSTART,RJUMP
 
 15    STOP
       END
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 C
 C***
 C
@@ -612,15 +586,6 @@ C
 C
 C
       F=RATVO-(RATOLD-RATVO)**2/(F-RATOLD-RATOLD+RATVO)
-C
-C
-C
-C
-C
-C
-C
-C
-C
 C
 16    DFDC=(DADC-F*DBDC)/B
       DFDP=(DADP-F*DBDP)/B

@@ -1,5 +1,21 @@
-C
+C Module to create 
+
+      module dirs
+      contains
+      function dirname(number)
+      integer :: number
+      character(len=6)  :: dirname
+
+      !Cast the (rounded) number to string using 6 digits and
+      ! leading zeros
+      write (dirname, '(I6)')  number
+      end function
+      end module
+
+
       PROGRAM WFOEDM
+
+      use dirs
 C
 C...  One electron diatomic molecule wavefunction calculatino
 C...  Original Author - J.D. POWER, modified and adapted for better numerical performance by Ruihan Wang @ UGA
@@ -13,41 +29,37 @@ C
       CHARACTER*2 CENTER(2),EOUT(2),YN*1
       INTEGER FCHAIN,GCHAIN
       CHARACTER*10 DUM(8)
+      CHARACTER(len=255) :: path,newpath
       LOGICAL*1 PT1,PT2,PT3
       DIMENSION IACDFT(4),IACMAX(4),IACMIN(4),IAC(4),AC(4)
       EQUIVALENCE (AC(1),PAC),(AC(2),CAC),(AC(3),ACCIN),(AC(4),ACCOUT)
       DATA CENTER,EOUT/' A',' B',' W',' E'/
       DATA IACDFT,IACMAX,IACMIN/2*11,2*10,2*13,2*10,2*10,2*10/
       DATA IIN,IOUT,IHOLD,IXTRAP,ITMAX/2,3,1,10,50/
-C
-      OPEN(IHOLD,FILE='WF.PLT',STATUS='unknown')
-      OPEN(IOUT,FILE='WF.OUT',STATUS='unknown')
-      OPEN(77,FILE='WF.DAT')
-      OPEN(IOEDM,FILE='IOEDM')
-C
 
+      character(len=10) :: file_id
+      character(len=50) :: file_name_full
+      character(len=50) :: file_name_pot
+
+
+
+
+      OPEN(77,FILE='WF.DAT')
 C
 1     continue
-
-699   FORMAT(//,
-     &'    ZA,ZB ... NUCLEAR CHARGES',/,
-     &'    N,L,M ... UNITED ATOM QUANTUM NUMBERS',/,
-     &'    IETOT.EQ.0   OUTPUT OF ELECTRONIC ENERGY (W=E-ZA*ZB/R)',/,
-     &'    IETOT.NE.0   OUTPUT OF THE TOTAL ENERGY E',/,
-     &'    IRISK.NE.0   SPEEDS UP THE RUN BY MODIFYING CONV. TEST',/,
-     &'    IWFN .NE.0   WAVE FUNCTIONS ARE CALCULATED -KJ-',/,
-     &'    RJ   .NE.0   RJUMP IS REPLACED BY RJ',/,
-     &'    IPRINT= 0    DEFAULT, MINIMUM PRINTOUT',/,
-     &'          =-1    VALUES OF P, C AND THEIR CHANGES PRINTED',/,
-     &'          =-2    ABOVE, PLUS F,G,DF,DG AND CUTOFF PARAMETERS',/,
-     &'          =-3    ABOVE, PLUS CONTINUED FRACTION APPROXIMATES',/,
-     &'          =+J    ESSENTIALLY SAME AS -2',//,
-     &'    PRESS <RETURN> TO QUIT.',//)
-C
-
 C     READ(IIN,501)ZA,ZB,N,L,M,IETOT,IRISK,IPRINT,IWFN,RJ
-      READ(77, *)QU,N,L,M,IETOT,IRISK,IPRINT,IWFN,RJ
 
+      READ(77, *) QU,N,L,M,IETOT,IRISK,IPRINT,IWFN,RJ
+
+      write(file_id, '(i0,i0,i0)') N,L,M
+      file_name_pot = 'po_t' // trim(adjustl(file_id)) // '.dat'
+      file_name_full = 'full_' // trim(adjustl(file_id)) // '.dat'
+C working directory manipulation
+      call system("mkdir -p WF/"//adjustl(trim(dirname(INT(QU)))))
+      CALL chdir("WF/"//adjustl(trim(dirname(INT(QU)))))
+      OPEN(IHOLD,FILE =file_name_pot,STATUS='unknown')
+      OPEN(IOUT,FILE = file_name_full,STATUS='unknown')
+      OPEN(IOEDM,FILE='IOEDM')
 501   FORMAT(D12.6,7I2,F10.0)
       ZA = 1.D0
       ZB = QU
@@ -117,6 +129,7 @@ C     WRITE(*,6021)
 C
 C3     READ(IIN,503)NPT,RINCR
  3     READ(77, * )NPT,RINCR
+      open(99,FILE="rvalue.dat")
       write(99,*) NPT
       do i = 1,NPT
          write(99,*) i*RINCR
