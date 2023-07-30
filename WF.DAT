@@ -1,5 +1,5 @@
 1.d0  3  1  1  1  0  0  0  1  
-0  0 0 0 0
+0  15 15 15 15
 300   0.05
 
      
@@ -11,4 +11,4 @@ Input: QU, N, L, M, IETOT, IRISK, IPRINT, IPUNCH, RJ
 
 Rstart must be 0
 NR<1000 Otherwise grave.f will not work properly
-NR<=100 Otherwise medoc.f doesn't work
+NR<=300 Otherwise medoc.f doesn't work

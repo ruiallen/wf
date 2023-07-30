@@ -52,7 +52,7 @@ C     READ(IIN,501)ZA,ZB,N,L,M,IETOT,IRISK,IPRINT,IWFN,RJ
       READ(77, *) QU,N,L,M,IETOT,IRISK,IPRINT,IWFN,RJ
 
       write(file_id, '(i0,i0,i0)') N,L,M
-      file_name_pot = 'po_t' // trim(adjustl(file_id)) // '.dat'
+      file_name_pot = 'pot_' // trim(adjustl(file_id)) // '.dat'
       file_name_full = 'full_' // trim(adjustl(file_id)) // '.dat'
 C working directory manipulation
       call system("mkdir -p WF/"//adjustl(trim(dirname(INT(QU)))))
